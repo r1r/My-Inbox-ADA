@@ -1,0 +1,202 @@
+<mvc:View controllerName="com.ifx.approval.Z_MYIBX_ADA.controller.ADList" xmlns:html="http://www.w3.org/1999/xhtml" xmlns:l="sap.ui.layout"
+	xmlns:mvc="sap.ui.core.mvc" xmlns="sap.m" xmlns:f="sap.ui.layout.form" xmlns:uxap="sap.uxap" xmlns:core="sap.ui.core"
+	xmlns:u="sap.ui.unified">
+	<IconTabBar id="idIconTabBarMulti" class="sapUiResponsiveContentPadding" backgroundDesign="Transparent" expanded="true">
+		<items>
+			<IconTabFilter text="Info">
+					<!--<ScrollContainer horizontal="true" visible="true">-->
+				<Table id="adList"  visible="{=${ADScreen>/isADList} ? true : false}" items="{AssetCollection>/}" itemPress="onADDetailsPress">
+					<columns>
+						<Column minScreenWidth="Desktop" demandPopin="true" visible="{AssetCollection>/0/Svaluedisplay}">
+							<Text    text="{i18n>SaleValue}"/></Column>
+						<Column  minScreenWidth="Desktop" demandPopin="true" visible="{AssetCollection>/0/Pvaluediaplay}">
+							<Text text="{i18n>PartialValue}"/></Column>
+						<Column  >
+							<Text text="{i18n>AssetNo}"/></Column>
+						<Column minScreenWidth="Tablet" demandPopin="true" >
+							<Text text="{i18n>Description}"/></Column>
+						<Column minScreenWidth="Desktop" demandPopin="true">
+							<Text wrapping="true" text="{i18n>CapDate}"/></Column>
+						<Column minScreenWidth="Desktop" demandPopin="true">
+							<Text text="{i18n>AccValue}"/></Column>
+						<Column >
+							<Text text="{i18n>NetValue}"/></Column>
+						<Column>
+							<Text text=""/>
+						</Column>
+					</columns>
+					<items>
+						<ColumnListItem vAlign="Middle" type="Navigation">
+							<cells>
+								<Input value="{AssetCollection>SvalueUi5}" type="Number" visible="{AssetCollection>Svaluedisplay}"/>
+								<Input value="{AssetCollection>AqvpsUi5}" type="Number" visible="{AssetCollection>Pvaluediaplay}"/>
+								<ObjectAttribute text="{parts:[{path:'AssetCollection>Anln1'},{path:'AssetCollection>Anln2'}], formatter: '.formatAssetNoAndSubNo' }"/>
+								<ObjectIdentifier title="{AssetCollection>Txt50}"/>
+								<Text text="{path:'AssetCollection>Aktiv', type:'sap.ui.model.type.Date', formatOptions: { pattern: 'dd/MM/yyyy' }}"/>
+								<ObjectNumber
+									number="{ parts:[{path:'AssetCollection>Kansw'},{path:'AssetCollection>Waers'}],type: 'sap.ui.model.type.Currency', formatOptions: {showMeasure: false , maxFractionDigits: 2} }"
+									unit="{AssetCollection>Waers}"/>
+								<ObjectNumber
+									number="{ parts:[{path:'AssetCollection>Nbvifrs'},{path:'AssetCollection>Waers'}],type: 'sap.ui.model.type.Currency', formatOptions: {showMeasure: false , maxFractionDigits: 2} }"
+									unit="{AssetCollection>Waers} "/>
+								<Button icon="sap-icon://upload" press="uploadAttachment" enabled="{ADScreen>/isUploadable}"/>
+								
+							</cells>
+						</ColumnListItem>
+					</items>
+				</Table>
+			<!--	</ScrollContainer>-->
+				<Toolbar>
+					<Button press="onBack" type="Back" ariaLabelledBy="actionButtonLabel" visible="{=${ADScreen>/isADList} ? false : true}"/>
+					<ToolbarSpacer/>
+				</Toolbar>
+				<f:SimpleForm id="adObjPg" visible="{=${ADScreen>/isADList} ? false : true}" layout="ResponsiveLayout" labelSpanXL="0" labelSpanL="0"
+					labelSpanM="0" labelSpanS="0" adjustLabelSpan="false" emptySpanXL="0" emptySpanL="0" emptySpanM="0" emptySpanS="0" columnsXL="4"
+					columnsL="4" columnsM="4" singleContainerFullSize="false" editable="false">
+					<f:content>
+						<core:Title text="{i18n>AssetDetails}"/>
+						<Label xmlns="sap.m" text="{i18n>AssetNo}" visible="true" design="Standard" textAlign="Begin" textDirection="Inherit" required="false"/>
+						<Text xmlns="sap.m" text="{parts:[{path:'AssetCollection>Anln1'},{path:'AssetCollection>Anln2'}], formatter: '.formatAssetNoAndSubNo' }"/>
+						<Label xmlns="sap.m" text="{i18n>Description}" width="100%" visible="true" design="Standard" textAlign="Begin" textDirection="Inherit"
+							required="false"/>
+						<Text xmlns="sap.m" text="{AssetCollection>Txt50}"/>
+						<Label xmlns="sap.m" text="{i18n>AssetNo}" width="100%" visible="true" design="Standard" textAlign="Begin" textDirection="Inherit"
+							required="false"/>
+						<Label xmlns="sap.m" text="{i18n>CapDate}" width="100%" visible="true" design="Standard" textAlign="Begin" textDirection="Inherit"
+							required="false"/>
+						<Text xmlns="sap.m" text="{path:'AssetCollection>Aktiv', type:'sap.ui.model.type.Date', formatOptions: { pattern: 'dd/MM/yyyy' } }"/>
+						<Label xmlns="sap.m" text="{i18n>AssetDataSheet}" width="100%" visible="true" design="Standard" textAlign="Begin" textDirection="Inherit"
+							required="false"/>
+						<Text xmlns="sap.m" text="{AssetCollection>Ord41}"/>
+						<Label xmlns="sap.m" text="{i18n>InventoryNo}" width="100%" visible="true" design="Standard" textAlign="Begin" textDirection="Inherit"
+							required="false"/>
+						<Text xmlns="sap.m" text="{AssetCollection>Invno}"/>
+						<Label xmlns="sap.m" text="{i18n>CostCenter}"/>
+						<Text xmlns="sap.m" text="{AssetCollection>Kostl}"/>
+						<Label xmlns="sap.m" text="{i18n>PostingDate}" width="100%" visible="true" design="Standard" textAlign="Begin" textDirection="Inherit"
+							required="false"/>
+						<Text xmlns="sap.m" text="{AssetCollection>Ord41}"/>
+						<!--Core added by Udit-->
+						<core:Title text=""/>
+						<Label xmlns="sap.m" text="{i18n>NetBookValue}"/>
+						<ObjectNumber
+							number="{ parts:[{path:'AssetCollection>Nbvifrs'},{path:'AssetCollection>Waers'}],type: 'sap.ui.model.type.Currency', formatOptions: {showMeasure: false , maxFractionDigits: 2} }"
+							unit="{AssetCollection>Waers}"/>
+						<Label xmlns="sap.m" text="{i18n>NetBookValueLC}"/>
+						<ObjectNumber
+							number="{ parts:[{path:'AssetCollection>Nbvlg'},{path:'AssetCollection>Waers'}],type: 'sap.ui.model.type.Currency', formatOptions: {showMeasure: false , maxFractionDigits: 2} }"
+							unit="{AssetCollection>Waers}"/>
+						<Label xmlns="sap.m" text="{i18n>AccValue}"/>
+						<ObjectNumber
+							number="{ parts:[{path:'AssetCollection>Kansw'},{path:'AssetCollection>Waers'}],type: 'sap.ui.model.type.Currency', formatOptions: {showMeasure: false , maxFractionDigits: 2} }"
+							unit="{AssetCollection>Waers}"/>
+						<Label xmlns="sap.m" text="{i18n>SaleValue}"/>
+						<ObjectNumber
+							number="{ parts:[{path:'AssetCollection>Svalue'},{path:'AssetCollection>Waers'}],type: 'sap.ui.model.type.Currency', formatOptions: {showMeasure: false , maxFractionDigits: 2} }"
+							unit="{AssetCollection>Waers}"/>
+						<Label xmlns="sap.m" text="{i18n>PartialSale}"/>
+						<ObjectNumber
+							number="{ parts:[{path:'AssetCollection>Aqvps'},{path:'AssetCollection>Waers'}],type: 'sap.ui.model.type.Currency', formatOptions: {showMeasure: false , maxFractionDigits: 2} }"
+							unit="{AssetCollection>Waers}"/>
+						<Label xmlns="sap.m" text="{i18n>Scrap}"/>
+						<Text xmlns="sap.m" text="{AssetCollection>Scrap}" wrapping="true"/>
+						<Label xmlns="sap.m" text="{i18n>Remarks}"/>
+						<Text xmlns="sap.m" text="{AssetCollection>Remarks}" wrapping="true"/>
+						<core:Title text="{i18n>ReceiverDetails}"/>
+						<Label xmlns="sap.m" text="{i18n>Receiver}"/>
+						<Text xmlns="sap.m" text="{AssetCollection>Recvr}"/>
+						<Label xmlns="sap.m" text="{i18n>RCompanyCode}"/>
+						<Text xmlns="sap.m" text="{AssetCollection>Bukrsrcvr}"/>
+						<Label xmlns="sap.m" text="{i18n>RCostCenter}"/>
+						<Text xmlns="sap.m" text="{AssetCollection>Ccrcvr}"/>
+						<Label xmlns="sap.m" text="{i18n>PostingDate}"/>
+						<Text xmlns="sap.m" text="{AssetCollection>Pstdate}"/>
+						<core:Title text=" "></core:Title>
+					</f:content>
+				</f:SimpleForm>
+				<!--Start changes by Udit-->
+				<!--<f:SimpleForm id="adObjPg2" visible="{=${ADScreen>/isADList} ? false : true}" layout="ResponsiveLayout" labelSpanXL="0"			labelSpanL="0"		labelSpanM="0"			labelSpanS="0"			adjustLabelSpan="false"			emptySpanXL="0"			emptySpanL="0"			emptySpanM="0"			emptySpanS="0"			columnsXL="4"		columnsL="4"	columnsM="4" singleContainerFullSize="false" editable="false" >
+							<f:content>
+								<core:Title text="{i18n>ReceiverDetails}"/>
+								<Label xmlns="sap.m" text="{i18n>Receiver}"/>
+								<Text xmlns="sap.m" text="{AssetCollection>Recvr}" class="sapUiSmallMarginBottom"/>
+								<Label xmlns="sap.m" text="{i18n>RCompanyCode}"/>
+								<Text xmlns="sap.m" text="{AssetCollection>Bukrsrcvr}" class="sapUiSmallMarginBottom"/>
+								<Label xmlns="sap.m" text="{i18n>RCostCenter}"/>
+								<Text xmlns="sap.m" text="{AssetCollection>Ccrcvr}" class="sapUiSmallMarginBottom"/>
+								<Label xmlns="sap.m" text="{i18n>PostingDate}"/>
+								<Text xmlns="sap.m" text="{AssetCollection>Pstdate}" class="sapUiSmallMarginBottom"/>
+						
+							</f:content>
+						</f:SimpleForm>-->
+				<!--Changes by Udit end-->
+				<f:SimpleForm id="idsimpleformdate" visible="{=${ADScreen>/isADList} ? true : false}" columnsXL="0" columnsL="0" columnsM="0"
+					layout="ResponsiveGridLayout" editable="true">
+					<f:content>
+						<Label visible="{AssetCollection>/0/Tpdisplay}" text="{i18n>TradingPartner}" width="100%" required="false" textDirection="Inherit"
+							textAlign="Begin" design="Standard"/>
+						<Input visible="{AssetCollection>/0/Tpdisplay}" value="{AssetCollection>/0/BukrsrcvrUi5}"/>
+						<Label visible="{AssetCollection>/0/Vddisplay}" text="{i18n>AssetValueDate}" width="100%" required="false" textDirection="Inherit"
+							textAlign="Begin" design="Standard"/>
+						<DatePicker visible="{AssetCollection>/0/Vddisplay}" value="{AssetCollection>/0/Bzdat}" displayFormat="dd.MM.yyyy" valueFormat="dd.MM.yyyy"/>
+						<Label visible="{AssetCollection>/0/Ttdisplay}" text="{i18n>AssetTransactionType}" width="100%" required="false" textDirection="Inherit"
+							wrapping="true" textAlign="Begin" design="Standard"/>
+						<Input visible="{AssetCollection>/0/Ttdisplay}" value="{AssetCollection>/0/Bwasl}"/>
+						<Label visible="{AssetCollection>/0/Pddisplay}" text="{i18n>PostingDate}" width="100%" required="false" textDirection="Inherit"
+							textAlign="Begin" design="Standard"/>
+						<DatePicker visible="{AssetCollection>/0/Pddisplay}" value="{AssetCollection>/0/BudatUi5}" displayFormat="dd.MM.yyyy"
+							valueFormat="dd.MM.yyyy"/>
+					</f:content>
+				</f:SimpleForm>
+				<!--<List visible="{=${ADScreen>/isADList} ? true : false}" items="{AttachmentCollection>/}" headerText="Attachments">-->
+				<!--	<items>-->
+				<!--		<StandardListItem icon="sap-icon://pdf-attachment" title="{AttachmentCollection>FileName}"-->
+				<!--			description="{parts:[{path:'AttachmentCollection>Anln1'},{path:'AttachmentCollection>Anln2'}], formatter: '.formatAssetNoAndSubNo' }"-->
+				<!--			type="Active" press="onAttItemPress"></StandardListItem>-->
+				<!--	</items>-->
+				<!--</List>-->
+				<!--binding pending-->
+				<Table xmlns="sap.m" items="{path: 'AssetCollection>/ADDetialsSet/results'}" visible="{=${ADScreen>/isADList} ? false : true}"
+					headerText="{i18n>InvestmentSupport}">
+					<columns>
+						<Column>
+							<Text text="{i18n>Key}"/>
+						</Column>
+						<Column minScreenWidth="Desktop" demandPopin="true">
+							<Text text="{i18n>Description}"/>
+						</Column>
+						<Column minScreenWidth="Desktop" demandPopin="true">
+							<Text text="{i18n>EndofValidity}"/>
+						</Column>
+						<Column minScreenWidth="Desktop" demandPopin="true">
+							<Text text="{i18n>AmountPaid}"/>
+						</Column>
+					</columns>
+					<!-- sap.m.Column -->
+					<!--do binding-->
+					<items>
+						<ColumnListItem vAlign="Middle">
+							<cells>
+								<Text text="{AssetCollection>Xblnr}" wrapping="false"/>
+								<Text text="{AssetCollection>Vtext}" wrapping="false"/>
+								<ObjectNumber
+									number="{ parts:[{path:'InvPoModel>Rmwwr'},{path:'InvPoModel&gt;Waers'}], type: 'sap.ui.model.type.Currency', formatOptions: {showMeasure: false} }"
+									unit="{InvPoModel>Waers}"/>
+							</cells>
+						</ColumnListItem>
+					</items>
+				</Table>
+			</IconTabFilter>
+			<IconTabFilter id="icon" text="Attachment{AttachmentCollection>/attachCount}">
+				<List visible="{=${ADScreen>/isADList} ? true : false}"  items="{AttachmentCollection>/}">
+					<items>
+						<StandardListItem icon="sap-icon://pdf-attachment" title="{AttachmentCollection>FileName}"
+							description="{parts:[{path:'AttachmentCollection>Anln1'},{path:'AttachmentCollection>Anln2'}], formatter: '.formatAssetNoAndSubNo' }"
+							type="Active"  press="onAttItemPress"></StandardListItem>
+					</items>
+				</List>
+				<List id="tempattachmentlist" mode="Delete" showNoData="false" delete="onDeleteAttachmentPress">				</List>
+			</IconTabFilter>
+		</items>
+	</IconTabBar>
+</mvc:View>

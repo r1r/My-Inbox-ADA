@@ -1,0 +1,13 @@
+<core:FragmentDefinition xmlns="sap.m" xmlns:core="sap.ui.core" xmlns:u="sap.ui.unified">
+	<Dialog id="helloDialog" title="Upload" class="sapUiContentPadding">
+		<u:FileUploader id="fileUploader" uploadUrl="/sap/opu/odata/sap/ZASSETDISPOSAL_SRV/AttachmentsSet" name="myFileUpload" fileType="pdf" useMultipart="false" sendXHR="true"
+			uploadComplete="handleUploadComplete" class="sapUiSmallMarginBegin"/>
+		<!--<Button text="Upload File" press="handleUploadPress" type="Default" />-->
+		<beginButton>
+			<Button text="Upload File" press="onfileupload" type="Default"/>
+		</beginButton>
+		<endButton>
+			<Button text="Close" press="closeDialog" type="Default"/>
+		</endButton>
+	</Dialog>
+</core:FragmentDefinition>
